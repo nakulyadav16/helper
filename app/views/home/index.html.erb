@@ -1,13 +1,23 @@
 
-      
+<div class="container bg-primary-subtle">
 
-<div class="container text-center h-5">
-    <div class="row align-items-center">
-        <div class="col  border">
-            <h1>Help- desk</h1>
-            <br>
-            <% name = current_user.present? ? current_user.email : 'Stranger' %>
-            <h1>Welcome, <%= name %> </h1>
-        </div>
+    <div class="card text-center ">
+    <div class="card-header " style="background: cornflowerblue; border: none">
+        <h1>Help-Desk</h1>
     </div>
+    <div class="card-body" style="background: lightsteelblue;">
+        <h5 class="card-title">Place to Get Help</h5>
+        <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        <%# <a href="#" class="btn btn-primary">Go somewhere</a> %>
+        <% if user_signed_in? %>
+                <%= link_to 'edit Profile', edit_user_registration_path, class:"btn btn-primary" %>
+                <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class:"btn btn-primary" %>
+        <% else %>
+                <%= link_to 'Sign In', new_user_session_path, class:"btn btn-primary" %>
+                <%= link_to 'Register', new_user_registration_path, class:"btn btn-primary" %>
+        <% end %>
+    </div>
+    </div>
+
+
 </div>

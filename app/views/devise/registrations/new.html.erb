@@ -1,4 +1,72 @@
-<h2>Sign up</h2>
+<div class= "contianer" style= "color: white;
+    padding: 20px;
+    width: 70%;
+    border: 2px solid white;
+    background:cornflowerblue;
+    margin: auto;">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name))  do |f| %>
+    <h2>Sign up</h2>
+  <div class="row g-3">
+    <div class="col-md-6">
+      <%= f.label :name ,class:"form-label" %><br />
+      <%= f.text_field :name,class:"form-control", autofocus: true %>
+      <%resource.errors.full_messages_for(:name).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :email ,class:"form-label" %><br />
+      <%= f.email_field :email, class:"form-control", autocomplete: "email" %>
+      <%resource.errors.full_messages_for(:email).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+    </div>
+
+    <div class="col-md-6">
+      <%= f.label :dob ,class:"form-label" %><br />
+      <%= f.datetime_field :dob,class:"form-control" %>
+      <%resource.errors.full_messages_for(:dob).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+    </div>
+
+    <div class="col-md-6">
+      <%= f.label :contact ,class:"form-label" %><br />
+      <%= f.number_field :contact,class:"form-control"%>
+      <%resource.errors.full_messages_for(:contact).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+    </div>
+
+    <div class="col-md-6">
+      <%= f.label :password ,class:"form-label" %><br />
+      <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %><br />
+      <%= f.password_field :password,class:"form-control"%>
+      <%resource.errors.full_messages_for(:password).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+    </div>
+
+    <div class="col-md-6">
+      <%= f.label :password_confirmation ,class:"form-label" %><br/><br />
+      <%= f.password_field :password_confirmation,class:"form-control"%>
+      <%resource.errors.full_messages_for(:password_confirmation).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+    </div>
+
+    <div class="col-md-4">
+      <%= f.label :department_id ,class:"form-label"%><br />
+      <%= f.select :department_id, options_for_select(Department.all.map{|department| [department.department_name,department.id]},selected: @user.department_id),{prompt: 'Select department'},{class: 'form-select form-select-lg mb-3'} %>
+      <%resource.errors.full_messages_for(:department_id).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+    </div>
+
+   
+    <div class="col-12">
+      <br>
+      <%= f.submit "Sign up",class:"btn btn-primary" %>
+    </div>
+  </div>
+  <% end %>
+
+
+
+
+
+
+<!--
+
+  <h2>Sign up</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%# this line show all errors of validations  %>
@@ -56,6 +124,6 @@
     <%= f.submit "Sign up" %>
   </div>
 <% end %>
-
+-->
 <%= render "devise/shared/links" %>
-
+</div>

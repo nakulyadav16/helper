@@ -10,6 +10,7 @@ class User < ApplicationRecord
   validates :contact,  presence: true
   validates :email, presence: true
   validates :department_id, presence: true
+  validates :dob, presence: true
 
   belongs_to :department 
   has_many :tickets,dependent: :destroy
