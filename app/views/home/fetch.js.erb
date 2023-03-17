@@ -1,0 +1,1 @@
+$(".assigned_to_page").html("<%= escape_javascript render( :partial => 'tickets/assigned_to', locals: { assined_users: @assined_users.pluck(:id, :name) } ) %>");

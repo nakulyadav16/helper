@@ -1,0 +1,78 @@
+<%=form_with model: @ticket do |f|%>
+
+    <div class="field">
+      <%= f.label :department_id %><br />
+      <%= f.select :department_id, options_for_select(Department.all.map{|department| [department.department_name,department.id]}),prompt: 'Select department',class: 'form-select form-select-lg'%>
+      <%@ticket.errors.full_messages_for(:department_id).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+    </div>
+
+    <div class="field">      
+      <%= label_tag :assigned_to %><br/>
+      <%# <div class='assigned_to_page'> %>
+        <%#= render partial: 'assigned_to', locals: { assined_users: [] } %>
+      <%# </div> %>
+      <%= f.select :assigned_to, options_for_select("None"),class: 'form-select form-select-lg'%>
+      
+      <% @ticket.errors.full_messages_for(:assigned_to).each do |message| %><p class="text-danger"> <%= message %> </p><% end %>
+    </div>
+
+    <div class="field">
+      <%= f.label :Subject %><br />
+      <%= f.text_field :subject, autofocus: true %>
+      <%@ticket.errors.full_messages_for(:subject).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+    </div>
+
+
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_field :description, autocomplete: "email" %>
+      <%@ticket.errors.full_messages_for(:description).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+    </div>
+
+   
+    <div class="field">
+      <%= f.label :due_date %><br />
+      <%= f.date_field :due_date %>
+      <%@ticket.errors.full_messages_for(:due_date).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+    </div>    
+
+    <div class="field">
+      <%= f.label :priority %><br />
+      <%= f.select :priority, options_for_select(["High" ,"Medium" ,"Low"]),{prompt: 'Select priority'},{class: 'form-select form-select-lg'} %>
+      <%@ticket.errors.full_messages_for(:priority).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Create ticket" %>
+    </div>
+<% end %>
+
+
+
+
+<script>
+  $(document).ready(function(){
+    $('#ticket_department_id').on('change',function(){
+      var department_selected_option = $(this).val();
+
+      if (department_selected_option){
+        $.ajax({
+          url: '/home/' + department_selected_option,
+          type: 'GET',
+          dataType: 'json',
+          success: function(data){
+            var options_html ='';
+            $.each(data, function(index,value){
+                options_html += '<option value="' + value.id + '">' + value.name + '</option>';
+            });
+            $('#ticket_assigned_to').html(options_html);
+          }, 
+          error: function(xhr, textStatus, errorThrown) {
+                        console.log('Error fetching options: ' + errorThrown);
+                    }
+        });
+      }
+    });
+  });
+
+</script>

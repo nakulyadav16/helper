@@ -1,0 +1,13 @@
+
+      
+
+<div class="container text-center h-5">
+    <div class="row align-items-center">
+        <div class="col  border">
+            <h1>Help- desk</h1>
+            <br>
+            <% name = current_user.present? ? current_user.email : 'Stranger' %>
+            <h1>Welcome, <%= name %> </h1>
+        </div>
+    </div>
+</div>

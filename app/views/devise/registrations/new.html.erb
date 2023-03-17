@@ -1,0 +1,61 @@
+<h2>Sign up</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%# this line show all errors of validations  %>
+  <%#= render "devise/shared/error_messages", resource: resource %>
+
+   <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, autofocus: true %>
+    <%resource.errors.full_messages_for(:name).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+  </div>
+
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autocomplete: "email" %>
+    <%resource.errors.full_messages_for(:email).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+  </div>
+
+   
+  <div class="field">
+    <%= f.label :dob %><br />
+    <%= f.datetime_field :dob %>
+  </div>
+
+
+  <div class="field">
+    <%= f.label :contact %><br />
+    <%= f.number_field :contact %>
+    <%resource.errors.full_messages_for(:contact).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+  </div>
+
+   <div class="field">
+    <%= f.label :department_id %><br />
+    <%= f.select :department_id, options_for_select(Department.all.map{|department| [department.department_name,department.id]},selected: @user.department_id),{prompt: 'Select department'},{class: 'form-select form-select-lg'} %>
+    <%resource.errors.full_messages_for(:department_id).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+  </div>
+
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+    <%resource.errors.full_messages_for(:password).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    <%resource.errors.full_messages_for(:password_confirmation).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+
