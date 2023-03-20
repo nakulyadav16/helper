@@ -10,7 +10,6 @@
   <div class="col-md-6">
     <%# <label for="inputState" class="form-label">State</label> %>
     <%= f.label :department_id,class:"form-label" %><br />
-
     <%= f.select :department_id, options_for_select(Department.all.map{|department| [department.department_name,department.id]}),prompt: 'Select department',class: 'form-select'%>
     <%@ticket.errors.full_messages_for(:department_id).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
   </div>
@@ -19,7 +18,6 @@
    <div class="col-md-6">
       <%# <label for="inputState" class="form-label">State</label> %>
       <%= f.label :assigned_id,class:"form-label" %><br />
-
       <%= f.select :assigned_to, options_for_select("None"),class: 'form-select',style: "width:100px;" %>
       <% @ticket.errors.full_messages_for(:assigned_to).each do |message| %><p class="text-danger"> <%= message %> </p><% end %>
     </div>
@@ -30,92 +28,48 @@
     <%@ticket.errors.full_messages_for(:subject).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
   </div>
 
+
+
+
   <div class="col-12">
-    <label for="inputAddress" class="form-label">Address</label>
-    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+    <%= f.label :description ,class:"form-label" %><br />
+    <%= f.text_field :description, class:"form-control",  autocomplete: "email" %>
+    <%@ticket.errors.full_messages_for(:description).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+
+
+
+    <%# <label for="inputAddress" class="form-label">Address</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"> %>
   </div>
-  <div class="col-12">
-    <label for="inputAddress2" class="form-label">Address 2</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-  </div>
+
+
   <div class="col-md-6">
-    <label for="inputCity" class="form-label">City</label>
-    <input type="text" class="form-control" id="inputCity">
+    <%= f.label :due_date , class:"form-label" %><br />
+    <%= f.date_field :due_date ,class:"form-control" %>
+    <%@ticket.errors.full_messages_for(:due_date).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+
+    <%# <label for="inputCity" class="form-label">City</label>
+    <input type="text" class="form-control" id="inputCity"> %>
   </div>
   <div class="col-md-4">
-    <label for="inputState" class="form-label">State</label>
+    <%= f.label :priority,class:"form-label" %><br />
+    <%= f.select :priority, options_for_select(["High" ,"Medium" ,"Low"]),{prompt: 'Select priority'},{class: 'form-select'} %>
+    <%@ticket.errors.full_messages_for(:priority).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
+
+
+    <%# <label for="inputState" class="form-label">State</label>
     <select id="inputState" class="form-select">
       <option selected>Choose...</option>
       <option>...</option>
-    </select>
+    </select> %>
   </div>
-  <div class="col-md-2">
-    <label for="inputZip" class="form-label">Zip</label>
-    <input type="text" class="form-control" id="inputZip">
-  </div>
+  
   <div class="col-12">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck">
-      <label class="form-check-label" for="gridCheck">
-        Check me out
-      </label>
-    </div>
-  </div>
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">Sign in</button>
+    <button type="submit" class="btn btn-primary">CREATE TICKET</button>
   </div>
 </div>
 <% end %>
 
-
-
-<%=form_with model: @ticket do |f|%>
-
-    <div class="field">
-      <%= f.label :department_id %><br />
-      <%= f.select :department_id, options_for_select(Department.all.map{|department| [department.department_name,department.id]}),prompt: 'Select department',class: 'form-select form-select-lg'%>
-      <%@ticket.errors.full_messages_for(:department_id).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
-    </div>
-
-    <div class="field">      
-      <%= label_tag :assigned_to %><br/>
-      <%# <div class='assigned_to_page'> %>
-        <%#= render partial: 'assigned_to', locals: { assined_users: [] } %>
-      <%# </div> %>
-      <%= f.select :assigned_to, options_for_select("None"),class: 'form-select form-select-lg'%>
-      
-      <% @ticket.errors.full_messages_for(:assigned_to).each do |message| %><p class="text-danger"> <%= message %> </p><% end %>
-    </div>
-
-    <div class="field">
-      <%= f.label :Subject %><br />
-      <%= f.text_field :subject, autofocus: true %>
-      <%@ticket.errors.full_messages_for(:subject).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
-    </div>
-
-    <div class="field">
-      <%= f.label :description %><br />
-      <%= f.text_field :description, autocomplete: "email" %>
-      <%@ticket.errors.full_messages_for(:description).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
-    </div>
-
-   
-    <div class="field">
-      <%= f.label :due_date %><br />
-      <%= f.date_field :due_date %>
-      <%@ticket.errors.full_messages_for(:due_date).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
-    </div>    
-
-    <div class="field">
-      <%= f.label :priority %><br />
-      <%= f.select :priority, options_for_select(["High" ,"Medium" ,"Low"]),{prompt: 'Select priority'},{class: 'form-select form-select-lg'} %>
-      <%@ticket.errors.full_messages_for(:priority).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
-    </div>
-
-    <div class="actions">
-      <%= f.submit "Create ticket" %>
-    </div>
-<% end %>
 
 </div>
 
@@ -127,7 +81,7 @@
 
       if (department_selected_option){
         $.ajax({
-          url: '/home/' + department_selected_option,
+          url: '/ticket/' + department_selected_option,
           type: 'GET',
           dataType: 'json',
           success: function(data){

@@ -1,14 +1,25 @@
 Rails.application.routes.draw do
-
-  # devise_for :users, :controllers => {:registrations => "registrations"}
-
+  
+  root to: "home#index"
+  
   devise_for :users
-
   devise_scope :user do
     get '/users', to: 'devise/registrations#new'
-    get '/users/password', to: 'devise/passwords#new'
+    # get '/users/password', to: 'devise/passwords#new'
   end
+    
+  resources :tickets 
+  get '/ticket/:department_selected_option', to: 'tickets#fetch'
+  
+end
 
+
+
+
+
+
+
+# devise_for :users, :controllers => {:registrations => "registrations"}
   #        :skip => [:registrations]
         
 
@@ -18,13 +29,8 @@ Rails.application.routes.draw do
   #   get "user/edit", to: "users/registrations#edit", as: :edit_user_registration
   # end
 
-  root to: "home#index"
-  get 'home/index' , to: 'home#index'
-  get 'home/show',to: 'home#show'
-  get '/home/:department_selected_option', to: 'home#fetch'
-
+  # get 'home/index' , to: 'home#index'
+  # get 'home/show',to: 'home#show'
+  # get '/home/:department_selected_option', to: 'home#fetch'
+  
   # resources :users
-
-  resources :tickets 
-
-end
