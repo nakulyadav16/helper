@@ -237,6 +237,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  actioncable
   awesome_print
   bootsnap (>= 1.4.4)
   byebug

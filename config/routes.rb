@@ -8,7 +8,9 @@ Rails.application.routes.draw do
     # get '/users/password', to: 'devise/passwords#new'
   end
     
-  resources :tickets 
+  resources :tickets do
+    resources :messages
+  end
   get '/ticket/:department_selected_option', to: 'tickets#fetch'
   
 end

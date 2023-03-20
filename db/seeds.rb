@@ -8,6 +8,6 @@
 r = Random.new
 
 for i in 0..20
-    User.create(email:"user#{i}@test.com",password: "123456",name:"user#{i}",contact: "#{i}233289",dob: "Thu, #{i} Mar 2001 18:23:00.000000000 UTC +00:00",department_id: r.rand(1..4))
+    User.create(email:"user#{i}@test.com",password: "123456",name:"user#{i}",contact: "#{i}233289",dob: "Thu, #{i} Mar 2001 18:23:00.000000000 UTC +00:00",department_id: r.rand(5..8))
     puts "user#{i} created"
 end

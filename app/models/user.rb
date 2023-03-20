@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   belongs_to :department 
   has_many :tickets,dependent: :destroy
+  has_many :messages
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -11,7 +12,7 @@ class User < ApplicationRecord
   # validates_presence_of :name, :message => 'Please Enter Your Name.'
   validates_presence_of :name
 
-  validates :contact,  presence: true , length: { minimum: 10 }
+  validates :contact,  presence: true 
   validates :department_id, presence: true
   validates :dob, presence: true 
   validate :check_age

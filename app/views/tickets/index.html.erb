@@ -10,7 +10,7 @@
         <tbody>
             <%@user_tickets.each do |ticket|%>
                 <tr>
-                    <td><%= link_to ticket.subject, ticket ,class: 'nav-link text-white'%></td> 
+                    <td><%= link_to ticket.subject, ticket ,class: 'nav-link text-white'  %></td> 
                 </tr>
             <%end%>
         </tbody>
@@ -27,7 +27,7 @@
         <tbody>
             <%@assigned_tickets.each do |ticket|%>
                 <tr>
-                    <td><%= link_to ticket.subject, ticket ,class: 'nav-link text-white'%></td> 
+                    <td><%= link_to ticket.subject, ticket ,class: 'nav-link text-white' %></td> 
                 </tr>
             <%end%>
         </tbody>
