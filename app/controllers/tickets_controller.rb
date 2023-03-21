@@ -4,8 +4,8 @@ class TicketsController < ApplicationController
     def index
       @user = current_user
       @user_tickets  = @user.tickets
-      
-      @assigned_tickets = Ticket.where("assigned_to = ?", @user.id)
+      @assigned_tickets = Ticket.where("assigned_to = ? and (aasm_state = 'inprogress' or aasm_state = 'closed')", @user.id)
+      @new_request_tickets = Ticket.where("assigned_to = ? and (aasm_state = 'opened' or aasm_state = 'reopened')", @user.id)
       # @tickets = Ticket.where("user_id = ? OR assigned_to= ? ", @user.id , @user.id)
     end
 
@@ -26,42 +26,82 @@ class TicketsController < ApplicationController
         if @ticket.save
             redirect_to tickets_path
         else
-            render :new
+            # render :new
+            redirect_to new_ticket_path
         end
+    end
+
+    def edit
+      @ticket = Ticket.find(params[:id])
+    end
+
+    def update
+      @ticket = Ticket.find(params[:id])
+      
+      if @ticket.update(ticket_params)
+        @ticket.upgrade!
+        redirect_to @ticket
+      else
+        render :edit
+      end
     end
 
 
   def destroy
     @ticket = Ticket.find(params[:id])
     @ticket.destroy
-
     redirect_to tickets_path
   end
 
-  # def fetch
-  #   department_selected_option = params[:department_selected_option]
-
-  #   @assined_users = User.where(department_id: department_selected_option)
-
-  #   # render json: options.to_json(only: [:id, :name])
-  # end
-
   def fetch
     department_selected_option = params[:department_selected_option]
-
-    # @assined_users = User.where(department_id: department_selected_option)
     options = User.where(department_id: department_selected_option)
-
     render json: options.to_json(only: [:id, :name])
   end
 
 
+  # aasm event calling methods 
+  def accepted
+    @ticket = Ticket.find_by_id(params[:id])
+    @ticket.accepted!
+    redirect_to @ticket
+  end
+
+  def rejected
+    @ticket = Ticket.find_by_id(params[:id])
+    @ticket.rejected!
+    redirect_to @ticket
+  end
+
+  #change are required
+  def after_due_date
+    @ticket = Ticket.find_by_id(params[:id])
+    @ticket.accepted!
+    redirect_to @ticket
+  end
+
+  def satisfied
+    @ticket = Ticket.find_by_id(params[:id])
+    @ticket.satisfied!
+    redirect_to @ticket
+  end
+
+  # def upgrade
+  #   @ticket = Ticket.find_by_id(params[:id])
+
+  #   @ticket.upgrade!
+  # end
+
+  def close
+    @ticket = Ticket.find_by_id(params[:id])
+    @ticket.close!
+    redirect_to @ticket
+  end
 
 
+  private
 
-    private
-
-    def ticket_params
-        params.require(:ticket).permit(:subject,:description ,:due_date,:priority ,:department_id,:assigned_to ,:user_id)
-    end
+  def ticket_params
+      params.require(:ticket).permit(:subject,:description ,:due_date,:priority ,:department_id,:assigned_to ,:user_id)
+  end
 end

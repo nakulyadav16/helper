@@ -9,6 +9,15 @@ Rails.application.routes.draw do
   end
     
   resources :tickets do
+    member do
+      patch :accepted
+      patch :rejected
+      patch :declined
+      patch :after_due_date
+      patch :satisfied
+      patch :upgrade
+      patch :close
+    end
     resources :messages
   end
   get '/ticket/:department_selected_option', to: 'tickets#fetch'
