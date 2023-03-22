@@ -1,4 +1,12 @@
 class Ticket < ApplicationRecord
+  
+  validates :subject ,:description ,:department_id, :assigned_to,:due_date, :priority , presence: true
+  
+  has_many :messages , dependent: :destroy
+  belongs_to :creator,class_name: 'User'
+  belongs_to :assigned_to ,class_name: 'User'  
+  belongs_to :department 
+  
   include AASM 
 
   aasm do
@@ -26,16 +34,8 @@ class Ticket < ApplicationRecord
     end
 
     event :close do 
-      transitions from: [:opended , :reopened , :rejected ] , to: :closed
+      transitions from: [:opened , :reopened , :rejected ] , to: :closed
     end
-
   end
-
-
-
-  validates :subject ,:description ,:department_id, :assigned_to,:due_date, :priority , presence: true
-  has_many :messages , dependent: :destroy
-  belongs_to :user  
-  belongs_to :department 
 end
 

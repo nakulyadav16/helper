@@ -17,9 +17,9 @@
 
    <div class="col-md-6">
       <%# <label for="inputState" class="form-label">State</label> %>
-      <%= f.label :assigned_id,class:"form-label" %><br />
-      <%= f.select :assigned_to, options_for_select("None"),class: 'form-select',style: "width:100px;" %>
-      <% @ticket.errors.full_messages_for(:assigned_to).each do |message| %><p class="text-danger"> <%= message %> </p><% end %>
+      <%= f.label :assigned_to,class:"form-label" %><br />
+      <%= f.select :assigned_to_id, options_for_select("None"),class: 'form-select',style: "width:100px;" %>
+      <% @ticket.errors.full_messages_for(:assigned_to_id).each do |message| %><p class="text-danger"> <%= message %> </p><% end %>
     </div>
 
   <div class="col-md-6">
@@ -89,7 +89,7 @@
             $.each(data, function(index,value){
                 options_html += '<option value="' + value.id + '">' + value.name + '</option>';
             });
-            $('#ticket_assigned_to').html(options_html);
+            $('#ticket_assigned_to_id').html(options_html);
           }, 
           error: function(xhr, textStatus, errorThrown) {
                         console.log('Error fetching options: ' + errorThrown);

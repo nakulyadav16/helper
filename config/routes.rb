@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   
   root to: "home#index"
   
-  devise_for :users
+  devise_for :users 
   devise_scope :user do
     get '/users', to: 'devise/registrations#new'
     # get '/users/password', to: 'devise/passwords#new'
