@@ -1,10 +1,10 @@
+
 <div class="col-lg-12">
     <div class="card rounded-0 mt-5 mb-5">
         <div class="card-body" >
             <h2 class="text-center">Ticket Details</h2>
             <div class="row">
                 <div class= "col-lg-6">
-                    <%# <h3 class= "text-center"> Personal </h3> %>
                     <p class="lead"><strong>Subject : </strong>
                     <%= @ticket.subject %></p>
                     <p class="lead"><strong> Description : </strong>
@@ -12,14 +12,76 @@
                     <p class="lead"><strong>Due Date : </strong>
                     <%= @ticket.due_date %></p>
                     <p class="lead"><strong>Priority : </strong>
-                    <%=@ticket.priority%></p>
-                    <p class="lead"><strong>Assigend  : </strong>
-                    <%=@ticket.priority%></p>
+                    <%=@ticket.priority %></p>
+                    <% if current_user.id == @ticket.creator_id %>
+                        <p class="lead"><strong>Assigend to : </strong>
+                        <%= @ticket.assigned_to.name %></p>
+                    <%else%>
+                        <p class="lead"><strong>Assigend By : </strong>
+                        <%= @ticket.creator.name%></p>
+                    <%end%>
+
+                    <% if( (@ticket.aasm_state == "opened" or @ticket.aasm_state == "reopened") and (@ticket.assigned_to_id == current_user.id)) %>
+
+                        <%= button_to "Accept", accepted_ticket_path(@ticket), method: :patch , class: "btn btn-primary mb-4 rounded-0" %>
+                        <%= button_to "reject", rejected_ticket_path(@ticket), method: :patch , class: "btn btn-primary mb-4 rounded-0" %>
+
+                    <% elsif (@ticket.aasm_state == "inprogress" || @ticket.aasm_state == "pending") &&  (@ticket.creator_id == current_user.id) %>
+
+                        <%= button_to "Satisfy and close" , satisfied_ticket_path(@ticket), method: :patch , class: "btn btn-primary mb-4 rounded-0"%>
+                        <%= button_to "upgrade" , edit_ticket_path(@ticket), method: :get , class: "btn btn-primary mb-4 rounded-0"%>
+
+                    <% elsif (@ticket.aasm_state == "rejected") &&  (@ticket.creator_id == current_user.id)  %>
+
+                        <%= button_to "Close" , close_ticket_path(@ticket), method: :patch, class: "btn btn-primary mb-4 rounded-0" %>
+                        <%= button_to "upgrade and reopen " , edit_ticket_path(@ticket), method: :get , class: "btn btn-primary mb-4 rounded-0"%>
+
+                    <% elsif (@ticket.aasm_state != "closed") &&  (@ticket.creator_id == current_user.id)  %>
+
+                        <%= button_to "close" , close_ticket_path(@ticket), method: :patch , class: "btn btn-primary mb-4 rounded-0"%>
+
+                    <% end %>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="messages_container" style=" padding:30px; background:white; ">
+    <h4 class="text-center" > Messages </h4>
+    <br>
+    <% @ticket.messages.each do | message |%>
+            <% if  message.user_id == @user.id %>
+                <div  style="display: block; text-align-last: end; margin:2px; ">
+                    <p style="margin: 0px; background:skyblue;" > 
+                        <%= message.content %> :
+                        <%= User.find_by_id(message.user_id).name%>
+                    </p>
+            <% else %>
+                <div  style="display: block; margin:2px ">
+                    <p style="margin: 0px;">
+                        <%= User.find_by_id(message.user_id).name%> : 
+                        <%= message.content %>
+                    </p>
+            <% end %>
+        </div>
+        
+    <% end %>
+
+    <div>
+        <%= form_with model: [ @ticket , @ticket.messages.build ] do | f |%>
+            <p>
+                <%#= f.label :content %><br>
+                <%= f.text_area :content, class: 'form-control', style:"width:80%; display: inline-block;"%> 
+                <%= f.hidden_field :user_id , required: true,  value:current_user.id  %>
+                <%#= f.text_field :ticket_id, required: true, class: 'form-control', value:@ticket.id  %>
+                <%= f.submit "Send" ,class:"btn btn-primary mb-2" %>
+            </p>
+        <% end %>
+    </div>
+</div>
+
+
 
 
 

@@ -53,10 +53,10 @@
   </div>
   <div class="col-md-4">
     <%= f.label :priority,class:"form-label" %><br />
-    <%= f.select :priority, options_for_select(["🔴High" ,"🟡Medium" ,"🟢Low"]),{prompt: 'Select priority'},{class: 'form-select'} %>
+    <%= f.select :priority, options_for_select(["High" ,"Medium" ,"Low"]),{prompt: 'Select priority'},{class: 'form-select'} %>
     <%@ticket.errors.full_messages_for(:priority).each do |message| %><p class="text-danger"> <%=message%> </p><%end%>
 
-    
+
     <%# <label for="inputState" class="form-label">State</label>
     <select id="inputState" class="form-select">
       <option selected>Choose...</option>
@@ -89,7 +89,7 @@
             $.each(data, function(index,value){
                 options_html += '<option value="' + value.id + '">' + value.name + '</option>';
             });
-            $('#ticket_assigned_to_id').html(options_html);
+            $('#ticket_assigned_to').html(options_html);
           }, 
           error: function(xhr, textStatus, errorThrown) {
                         console.log('Error fetching options: ' + errorThrown);

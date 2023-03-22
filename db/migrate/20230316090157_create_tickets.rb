@@ -5,11 +5,15 @@ class CreateTickets < ActiveRecord::Migration[6.1]
       t.string :description
       t.date :due_date
       t.string :priority
-      t.bigint :assigned_to
-      t.references :user, null: false, foreign_key: true
+      t.references :assigned_to , null: false 
+      t.references :creator, null: false
       t.references :department, null: false, foreign_key: true
 
       t.timestamps
     end
+
+    add_foreign_key :tickets, :users, column: :assigned_to_id
+    add_foreign_key :tickets, :users, column: :creator_id
+
   end
 end
