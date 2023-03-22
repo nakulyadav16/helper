@@ -1,3 +1,4 @@
+
 <div class="col-lg-12">
     <div class="card rounded-0 mt-5 mb-5">
         <div class="card-body" >
@@ -12,13 +13,34 @@
                     <%= @ticket.due_date %></p>
                     <p class="lead"><strong>Priority : </strong>
                     <%=@ticket.priority %></p>
-                    <% if current_user.id == @ticket.user_id %>
+                    <% if current_user.id == @ticket.creator_id %>
                         <p class="lead"><strong>Assigend to : </strong>
-                        <%= User.find_by_id(@ticket.assigned_to).name %></p>
+                        <%= @ticket.assigned_to.name %></p>
                     <%else%>
                         <p class="lead"><strong>Assigend By : </strong>
-                        <%= User.find_by_id(@ticket.user_id).name%></p>
+                        <%= @ticket.creator.name%></p>
                     <%end%>
+
+                    <% if( (@ticket.aasm_state == "opened" or @ticket.aasm_state == "reopened") and (@ticket.assigned_to_id == current_user.id)) %>
+
+                        <%= button_to "Accept", accepted_ticket_path(@ticket), method: :patch , class: "btn btn-primary mb-4 rounded-0" %>
+                        <%= button_to "reject", rejected_ticket_path(@ticket), method: :patch , class: "btn btn-primary mb-4 rounded-0" %>
+
+                    <% elsif (@ticket.aasm_state == "inprogress" || @ticket.aasm_state == "pending") &&  (@ticket.creator_id == current_user.id) %>
+
+                        <%= button_to "Satisfy and close" , satisfied_ticket_path(@ticket), method: :patch , class: "btn btn-primary mb-4 rounded-0"%>
+                        <%= button_to "upgrade" , edit_ticket_path(@ticket), method: :get , class: "btn btn-primary mb-4 rounded-0"%>
+
+                    <% elsif (@ticket.aasm_state == "rejected") &&  (@ticket.creator_id == current_user.id)  %>
+
+                        <%= button_to "Close" , close_ticket_path(@ticket), method: :patch, class: "btn btn-primary mb-4 rounded-0" %>
+                        <%= button_to "upgrade and reopen " , edit_ticket_path(@ticket), method: :get , class: "btn btn-primary mb-4 rounded-0"%>
+
+                    <% elsif (@ticket.aasm_state != "closed") &&  (@ticket.creator_id == current_user.id)  %>
+
+                        <%= button_to "close" , close_ticket_path(@ticket), method: :patch , class: "btn btn-primary mb-4 rounded-0"%>
+
+                    <% end %>
                 </div>
             </div>
         </div>

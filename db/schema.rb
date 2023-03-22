@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_20_113114) do
+ActiveRecord::Schema.define(version: 2023_03_22_111606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,13 +36,15 @@ ActiveRecord::Schema.define(version: 2023_03_20_113114) do
     t.string "description"
     t.date "due_date"
     t.string "priority"
-    t.bigint "assigned_to"
-    t.bigint "user_id", null: false
+    t.bigint "assigned_to_id", null: false
+    t.bigint "creator_id", null: false
     t.bigint "department_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "aasm_state"
+    t.index ["assigned_to_id"], name: "index_tickets_on_assigned_to_id"
+    t.index ["creator_id"], name: "index_tickets_on_creator_id"
     t.index ["department_id"], name: "index_tickets_on_department_id"
-    t.index ["user_id"], name: "index_tickets_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -57,6 +59,11 @@ ActiveRecord::Schema.define(version: 2023_03_20_113114) do
     t.integer "contact"
     t.datetime "dob"
     t.bigint "department_id", null: false
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["department_id"], name: "index_users_on_department_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -65,6 +72,7 @@ ActiveRecord::Schema.define(version: 2023_03_20_113114) do
   add_foreign_key "messages", "tickets"
   add_foreign_key "messages", "users"
   add_foreign_key "tickets", "departments"
-  add_foreign_key "tickets", "users"
+  add_foreign_key "tickets", "users", column: "assigned_to_id"
+  add_foreign_key "tickets", "users", column: "creator_id"
   add_foreign_key "users", "departments"
 end
