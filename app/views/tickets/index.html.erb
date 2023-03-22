@@ -22,6 +22,7 @@
                     <thead>
                         <tr>
                         <th> Subject </th>
+                        <th> Assigned to </th>
                         <th> Priority </th>
                         <th> Status </th>
                         </tr>
@@ -30,6 +31,7 @@
                         <%@user_tickets.each do |ticket|%>
                             <tr>
                                 <td><%= link_to ticket.subject, ticket ,class: 'nav-link '  %></td> 
+                                <td><%= ticket.assigned_to.name %></td> 
                                 <td><%= ticket.priority %></td> 
                                 <td><%= ticket.aasm_state %></td> 
                             </tr>
@@ -47,6 +49,7 @@
                     <thead>
                         <tr>
                         <th> Subject </th>
+                        <th> Assigned By </th>
                         <th> Priority </th>
                         <th> Status </th>
                         </tr>
@@ -55,6 +58,7 @@
                         <%@assigned_tickets.each do |ticket|%>
                             <tr>
                                 <td><%= link_to ticket.subject, ticket ,class: 'nav-link' %></td> 
+                                <td><%= ticket.creator.name %></td> 
                                 <td><%= ticket.priority %></td> 
                                 <td><%= ticket.aasm_state %></td> 
                             </tr>
@@ -74,6 +78,7 @@
                     <thead>
                         <tr>
                         <th> Subject </th>
+                        <th> Assigned by </th>
                         <th> Priority </th>
                         <th> Status </th>
                         </tr>
@@ -82,6 +87,7 @@
                         <%@new_request_tickets.each do |ticket|%>
                             <tr>
                                 <td><%= link_to ticket.subject, ticket ,class: 'nav-link ' %></td> 
+                                <td><%= ticket.creator.name %></td> 
                                 <td><%= ticket.priority %></td> 
                                 <td><%= ticket.aasm_state %></td> 
                             </tr>
