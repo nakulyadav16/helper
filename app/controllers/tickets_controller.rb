@@ -31,7 +31,7 @@ class TicketsController < ApplicationController
     @ticket = @user.tickets.new(ticket_params)
 
     if @ticket.save
-      
+      # TicketHistory.create(@ticket.id , @ticket.assigned_to.id)
       TicketGenerationMailer.ticket_generation(@ticket.assigned_to, current_user).deliver
       redirect_to tickets_path
     else

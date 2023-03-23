@@ -18,7 +18,7 @@ class Ticket < ApplicationRecord
     end
 
     event :rejected do 
-      transitions from: [ :opended , :reopened ] , to: :rejected
+      transitions from: [ :opened , :reopened ] , to: :rejected
     end
 
     event :after_due_date do 
