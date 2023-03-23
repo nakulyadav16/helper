@@ -1,4 +1,9 @@
 class User < ApplicationRecord
+  rolify
+
+  after_create :assign_role
+
+  attr_accessor :role
 
   belongs_to :department 
   has_many :tickets,class_name: 'Ticket' ,foreign_key: 'creator_id' ,dependent: :destroy
@@ -19,6 +24,12 @@ class User < ApplicationRecord
   validate :check_age
 
   private
+
+  def assign_role
+    byebug
+    self.add_role role
+    puts role
+  end
 
   def check_age
     if(dob != nil)

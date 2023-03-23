@@ -1,13 +1,21 @@
 Rails.application.routes.draw do
+
+  get 'home', to: 'home#index'  
+  resources :departments 
+  resources :roles
   
-  root to: "home#index"
-  
-  devise_for :users 
+
   devise_scope :user do
+    root :to => "devise/sessions#new"
     get '/users', to: 'devise/registrations#new'
     # get '/users/password', to: 'devise/passwords#new'
   end
-    
+  
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
+
   resources :tickets do
     member do
       patch :accepted
@@ -20,6 +28,7 @@ Rails.application.routes.draw do
     end
     resources :messages
   end
+
   get '/ticket/:department_selected_option', to: 'tickets#fetch'
   
 end

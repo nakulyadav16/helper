@@ -65,6 +65,15 @@
           <p class="text-danger"> <%=message%> </p>
         <%end%>
       </div>
+
+      <div class="col-md-4">
+        <%= f.label :role ,class:"form-label" %><br />
+        <%= f.select :role, options_for_select( Role.all.map{ |role| [ role.name ] } ) , {prompt: 'Select Role'} , {class: 'form-select form-select-lg mb-3'} %>
+        <% resource.errors.full_messages_for(:role).each do |message| %>
+          <p class="text-danger"> <%=message%> </p>
+        <%end%>
+      </div>
+
     </div>
 
     <div class="row g-3">
