@@ -25,7 +25,7 @@
 
       <div class="col-md-6">
         <%= f.label :dob ,class:"form-label" %><br />
-        <%= f.datetime_field :dob,class:"form-control" %>
+        <%= f.date_field :dob,class:"form-control" %>
         <% resource.errors.full_messages_for(:dob).each do |message| %>
           <p class="text-danger"> <%=message%> </p>
         <%end%>
@@ -60,12 +60,7 @@
 
       <div class="col-md-4">
         <%= f.label :department_id ,class:"form-label"%><br />
-        <%= f.select :department_id, options_for_select(
-          Department.all.map{|department| 
-            [department.department_name,department.id]
-          },selected: @user.department_id),
-          {prompt: 'Select department'},
-          {class: 'form-select form-select-lg mb-3'} %>
+        <%= f.select :department_id, options_for_select( Department.all.map{ |department| [ department.department_name , department.id ] } , selected: @user.department_id ) , {prompt: 'Select department'} , {class: 'form-select form-select-lg mb-3'} %>
         <% resource.errors.full_messages_for(:department_id).each do |message| %>
           <p class="text-danger"> <%=message%> </p>
         <%end%>

@@ -14,3 +14,6 @@ end
 
 # to create user ticket
 # User.last.tickets.create(subject: "abc", description:"def",due_date:"Mon, 25 Mar 2023 13:51:18.299480000 UTC +00:00",priority:"high" ,assigned_to_id:1  , department_id: 6 )
+
+
+# ap User.find_by_id(20).assigned_tickets.first.messages

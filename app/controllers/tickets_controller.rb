@@ -15,15 +15,15 @@ class TicketsController < ApplicationController
     # @tickets = Ticket.where("user_id = ? OR assigned_to= ? ",  @user.id,  @user.id)
   end
 
-  def new
-    @user = current_user
-    @ticket = @user.tickets.new
-  end
-
   def show
     @user = current_user
     # @ticket = @user.tickets.find_by_id(params[:id])
     @ticket = Ticket.find_by_id(params[:id])
+  end
+
+  def new
+    @user = current_user
+    @ticket = @user.tickets.new
   end
 
   def create
@@ -31,6 +31,7 @@ class TicketsController < ApplicationController
     @ticket = @user.tickets.new(ticket_params)
 
     if @ticket.save
+      
       TicketGenerationMailer.ticket_generation(@ticket.assigned_to, current_user).deliver
       redirect_to tickets_path
     else
