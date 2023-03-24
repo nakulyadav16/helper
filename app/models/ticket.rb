@@ -37,5 +37,6 @@ class Ticket < ApplicationRecord
       transitions from: [:opened , :reopened , :rejected ] , to: :closed
     end
   end
+  
 end
 

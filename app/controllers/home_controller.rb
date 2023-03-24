@@ -4,21 +4,4 @@ class HomeController < ApplicationController
   def index
   end
 
-
-  def show 
-    @user = current_user
-    @tickets = @user.tickets
-    @tickets = Ticket.where("user_id = ? OR assigned_to= ? ", @user.id , @user.id)
-  end
-
-
-
-  # def fetch
-  #   department_selected_option = params[:department_selected_option]
-
-  #   # @assined_users = User.where(department_id: department_selected_option)
-  #   options = User.where(department_id: department_selected_option)
-
-  #   render json: options.to_json(only: [:id, :name])
-  # end
 end
