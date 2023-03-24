@@ -12,7 +12,6 @@ class RolesController < ApplicationController
 
   def create
     @role = Role.new(role_params)
-
     if @role.save
       redirect_to roles_path
     else

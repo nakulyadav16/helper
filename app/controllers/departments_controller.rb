@@ -29,7 +29,6 @@ class DepartmentsController < ApplicationController
 
   def update
     @department = Department.find(params[:id])
-    byebug
     if @department.update(department_params)
       redirect_to @department
     else

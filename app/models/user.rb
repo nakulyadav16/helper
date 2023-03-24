@@ -26,7 +26,6 @@ class User < ApplicationRecord
   private
 
   def assign_role
-    byebug
     self.add_role role
     puts role
   end

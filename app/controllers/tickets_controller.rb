@@ -9,15 +9,10 @@ class TicketsController < ApplicationController
     @user_tickets = @user.tickets
     @assigned_tickets = @user.assigned_tickets.where("aasm_state = 'inprogress' or aasm_state = 'closed'")
     @new_request_tickets = @user.assigned_tickets.where("aasm_state = 'opened' or aasm_state = 'reopened'")
-
-    # @assigned_tickets = Ticket.where("assigned_to_id = ? and (aasm_state = 'inprogress' or aasm_state = 'closed')", @user.id)
-    # @new_request_tickets = Ticket.where("assigned_to_id = ? and (aasm_state = 'opened' or aasm_state = 'reopened')", @user.id)
-    # @tickets = Ticket.where("user_id = ? OR assigned_to= ? ",  @user.id,  @user.id)
   end
 
   def show
     @user = current_user
-    # @ticket = @user.tickets.find_by_id(params[:id])
     @ticket = Ticket.find_by_id(params[:id])
   end
 
@@ -31,11 +26,9 @@ class TicketsController < ApplicationController
     @ticket = @user.tickets.new(ticket_params)
 
     if @ticket.save
-      # TicketHistory.create(@ticket.id , @ticket.assigned_to.id)
       TicketGenerationMailer.ticket_generation(@ticket.assigned_to, current_user).deliver
       redirect_to tickets_path
     else
-        # render :new
       redirect_to new_ticket_path
     end
   end
@@ -92,12 +85,6 @@ class TicketsController < ApplicationController
     @ticket.satisfied!
     redirect_to @ticket
   end
-
-  # def upgrade
-  #   @ticket = Ticket.find_by_id(params[:id])
-
-  #   @ticket.upgrade!
-  # end
 
   def close
     @ticket = Ticket.find_by_id(params[:id])
